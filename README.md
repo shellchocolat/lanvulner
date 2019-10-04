@@ -1,6 +1,6 @@
 # LanVulner
 
-Help to find some security flow into your local network
+Help to find some security flaw into your local network
 
 # How to use?
 ```
