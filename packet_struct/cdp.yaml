@@ -1,0 +1,47 @@
+etherframe_dst: '01:00:0c:cc:cc:cc'
+etherframe_src: 'RandMAC'
+etherframe_type: 0x011e                        #CDP uses Type field for length information
+
+llcFrame_dsap: 170                             #DSAP: SNAP (0xaa) IG Bit: Individual
+llcFrame_ssap: 170                             #SSAP: SNAP (0xaa) CR Bit: Command
+llcFrame_ctrl: 3                               #Control field Frame Type: Unumbered frame (0x03)
+
+snapFrame_OUI: 12                             #Organization Code: Cisco hex(0x00000c) = int(12)
+snapFrame_code: 8192                           #PID (EtherType): CDP hex(0x2000) = int(8192)
+
+cdpHeader_vers: 1                              #CDP Version: 1 - its always 1
+cdpHeader_ttl: 180                            #TTL: 180 seconds
+
+cdpDeviceID_type: 1                            #Type: Device ID hex(0x0001) = int(1)
+cdpDeviceID_len: 6                            #Length: 6 (Type(2) -> 0x00 0x01) + (Length(2) -> 0x00 0x0c) + (DeviceID(2))
+cdpDeviceID_val: 'cdpDeviceIDgen'             #Generate random Device ID (2 chars uppercase + int = lowercase)
+
+cdpAddrv4_ptype: 1                           #Address protocol type: NLPID
+cdpAddrv4_plen: 1                           #Protocol Length: 1
+cdpAddrv4_addrlen: 4                           #Address length: 4 (e_g_ int(192_168_1_1): hex(0xc0 0xa8 0x01 0x01)
+cdpAddrv4_addr: 'RandIP'             #Generate random source IP address
+
+cdpAddr_type: 2                               #Type: Address (0x0002)
+cdpAddr_len: 17                              #Length: hex(0x0011): int(17)
+cdpAddr_naddr: 1                               #Number of addresses: hex(0x00000001): int(1)
+cdpAddr_addr: 'cdpAddrv4'                     #Pass CDP Address IPv4 information
+
+cdpPortID_type: 3                             #type: Port ID (0x0003)
+cdpPortID_len: 13                            #Length: 13
+cdpPortID_iface: 'Ethernet0'                   #Interface string (can be changed to what you like - dont forget the length field)
+
+cdpCapabilities_type: 4                      #Type: Capabilities (0x0004)
+cdpCapabilities_length: 8                      #Length: 8
+cdpCapabilities_cap: 1                      #Capability: Router (0x01), TB Bridge (0x02), SR Bridge (0x04), Switch that provides both Layer 2 and/or Layer 3 switching (0x08), Host (0x10), IGMP conditional filtering (0x20) and Repeater (0x40)
+
+cdpSoftVer_type: 5                             #Type: Software Version (0x0005)
+cdpSoftVer_len: 216                           #Length: 216
+cdpSoftVer_val: >
+    Cisco Internetwork Operating System Software \n
+    IOS (tm) 1600 Software (C1600-NY-L), Version 11_2(12)P, RELEASE SOFTWARE (fc1)\nCopyright (c) 1986-1998 by cisco Systems, Inc_\n
+    Compiled Tue 03-Mar-98 06:33 by dschwart
+
+
+cdpPlatform_type: 6                            #Type: Platform (0x0006)
+cdpPlatform_len: 14                           #Length: 14
+cdpPlatform_val: 'cisco 1601'                 #Platform: cisco 1601 (can be changed, dont forget the Length)

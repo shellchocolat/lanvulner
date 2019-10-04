@@ -1,0 +1,119 @@
+mac_flood_switch: |
+        MAC address flooding atttack is a type of network attack 
+        where an attacker connected to a switch port floods the 
+        switch interface with very large number of Ethernet frames 
+        with different fake source MAC address.
+
+        Within a very short time, the switch's MAC Address table 
+        is full with fake MAC address/port mapping. Thus, the switch 
+        cannot save any more MAC address in its MAC Address table.
+
+        The consequence could desastrous. The switch can enters into 
+        a fail-open mode and start behaving like a network hub. 
+        And so frames are flooded to all ports (similar to broadcast 
+        type of communication).
+        
+        The attacker's machine will be delivered with all the frames 
+        between the victim and other machines, and so will be able to 
+        capture sensitive data from network.
+
+ntp_reflective: |
+        NTP reflective amplification attack is a type of DOS attack.
+        
+        The attacker sends a packet with a forged IP address (victim's)
+        and the server replies to this address.
+
+        This is attack is called as amplification because the amount of
+        data that the server will send back to the victim is bigger
+        than the initial size of the packet sent by the attacker.
+
+        The command sent to the NTP server is MON_GETLIST that return
+        the list of most recent assets that have interacted with the 
+        server. The reply could be 200 times the size of the request.
+
+        And so an attacker with a 1 GB network interface can
+        theoretically  generate 200 GB of traffic.
+
+
+cdp_flood: |
+        CDP is use by network engineers to view the network topology.
+
+        Flooding the switch with CDP messages can cause a lot of trouble.
+        Among them, we can freeze the OS running on the switch which
+        will blocks anyone from remotely managing the swithc; we can
+        also lock up the CPU which causes the switch to start dropping
+        network traffic; and, when a switch is overwhelmed and can no
+        longer forward frames it will start to forward frames out all
+        ports like a hub (see also mac_flood_switch command).
+
+dhcp_starvation: |
+        In DHCP starvation attack, an attacker broadcasts large number
+        of DHCP requests messages with spoofed source MAC addresses.
+
+        If the legitimate DHCP server in the network start responding
+        to all these fake DHCP requests, available IP addresses in the
+        DHCP server scope will be depleted within a very short time.
+
+        Once the available number of IP addresses in the DHCP server
+        is depleted, network attackers can then set up a rogue DHCP
+        server and respond to new DHCP requests from clients.
+        The attacker can now launch a DHCP spoofing attack and
+        start capturing sensitive network packet.
+
+ssdp_reflective: |
+        SSDP reflective amplification attack is a type of DOS attack.
+
+        This is attack is called as amplification because the amount of
+        data that the server will send back to the victim is bigger
+        than the initial size of the packet sent by the attacker.
+
+        The attacker will create a UDP packet with a spoofed IP 
+        address (victim's). Then the attacker will send a spoofed
+        discovery packet to each plug-and-play device with a 
+        request for as much data as possible by setting the flag
+        ssdp:rootdevice or ssdp:all
+
+dos_blacknurse: |
+        The blacknurse attack is a type of DOS attack based on ICMP
+        flooding.
+
+        Most ICMP attack are based on ICMP type 8 code 0, but blacknurse
+        is based on ICMP type 3 code 3. And thus can be very effective
+        even at very low bandwith.
+
+        The targets are essentially firewall, routers. Those devices
+        spend significant resources on processing common ICMP error
+        messages such as "Port Unreachable" (type 3 code 3).
+
+        The firewall will suffer performance issues, then stop 
+        working very fast.
+
+ping_of_death: |
+        The ping of death is a type of DOS attack base on ICMP
+        flooding.
+
+        The size of a correctly-formed IPv4 packet including IP
+        header is 65535 bytes, including a total payload size 84 bytes.
+
+        Since send a packet larger thatn 65535 bytes violates the 
+        Internet Protocol, attacker will send malformed packet in 
+        fragments. When the target system attemp to reassemble the 
+        fragments and ends up with an oversized packet, memory
+        overflow could occur and lead to various system problem
+        including crash.
+
+dns_reflective: |
+        DNS reflective amplification attack is a type of DOS attack.
+
+        This attack required to know a DNS server IP (ex 8.8.8.8, or
+        an internal DNS server) to make the DNS request, a spoofed 
+        IP (vitcim's) that the DNS server will respond to, and finally
+        a website url that contains a lot of content into its DNS
+        response to the "ANY" command (dig @8.8.8.8 website.com ANY)
+
+        As for all reflective amplification attack, the response 
+        needs to be much larger than the request. This DOS attack
+        is not really effective, unles for DNSSEC, because de facto
+        DNSSEC provides a lot of content in its response.
+
+
