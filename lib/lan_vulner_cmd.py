@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import sys, os
 import datetime
-import serial
 from os.path import isfile, join
 from os import listdir
 import colorama
