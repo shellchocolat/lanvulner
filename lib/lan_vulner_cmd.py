@@ -119,7 +119,7 @@ def execute(cmd_tokens):
     if cmd_tokens[0] == 'info':
         if len(cmd_tokens) <= 2:
             with open(TOOLS_PATH + "infos.yaml", mode='r') as fp:
-                info = yaml.load(fp)
+                info = yaml.load(fp, Loader=yaml.Loader)
             
             try:
                 i = info[cmd_tokens[1]]
