@@ -38,6 +38,7 @@ cmdList = [
             'ssdp_reflective ',
             'dns_reflective ',
             'arp_cache_poisoning ',
+            'traceroute ',
             'test(',
             'start ',
             'stop ',
@@ -85,7 +86,8 @@ def help_menu():
     print(GREEN + " cdp_flood "+YELLOW+"<test(2)/dos> <interface>\t\t\t\t\t"+MAGENTA + "CDP flooding the switch with CDP packets" + RESET)
     print(GREEN + " ssdp_reflective "+YELLOW+"<test(2)/flood> <ssdp_srv_ip> <victim_ip> <interface>\t"+MAGENTA+ "SSDP Reflective Attack (ssdp: rootdevice)" + RESET)
     print(GREEN + " dns_reflective "+YELLOW+"<test(2)/flood> <dns_srv_ip> <victim_ip> <website.com> <interface>\t"+MAGENTA+ "DNS Reflective Attack" + RESET)
-    print(GREEN + " arp_cache_poisoning "+YELLOW+"<start/stop> <victim_ip> <gateway_ip> <interface>\t"+MAGENTA+ "MITM via ARP cache poisoning" + RESET)
+    print(GREEN + " arp_cache_poisoning "+YELLOW+"<start/stop> <victim_ip> <gateway_ip> <timeout> <interface>\t"+MAGENTA+ "MITM via ARP cache poisoning" + RESET)
+    print(GREEN + " traceroute "+YELLOW+"<TTL> <victim_ip/hostname> <timeout> <protocol>\t"+MAGENTA+ "Traceroute" + RESET)
     print("="*60)
     print(RED + " Don't be an asshole and only use the test(2) parameter." + RESET)
     print(RED + " Of course, don't forget that wireshark is your friend !" + RESET)
@@ -149,7 +151,7 @@ def execute(cmd_tokens):
             else:
                 interface= "eth0"
 
-            cmd_line = TOOLS_PATH + "mac_flood_switch.py -t " + a + " -N " + N + " -I " + interface
+            cmd_line = "python3 " + TOOLS_PATH + "mac_flood_switch.py -t " + a + " -N " + N + " -I " + interface
 
             Popen(cmd_line, shell=True)
         else:
@@ -173,7 +175,7 @@ def execute(cmd_tokens):
             else:
                 interface= "eth0"
 
-            cmd_line = TOOLS_PATH + "ntp_reflective.py -t " + a + " -n " + cmd_tokens[2] + " -v " + cmd_tokens[3] + " -N " + N + " -I " + interface
+            cmd_line = "python3 " + TOOLS_PATH + "ntp_reflective.py -t " + a + " -n " + cmd_tokens[2] + " -v " + cmd_tokens[3] + " -N " + N + " -I " + interface
 
             Popen(cmd_line, shell=True)
         else:
@@ -198,7 +200,7 @@ def execute(cmd_tokens):
             else:
                 interface= "eth0"
 
-            cmd_line = TOOLS_PATH + "dos_blacknurse.py -t " + a + " -a " + cmd_tokens[2] + " -v " + cmd_tokens[3] + " -N " + N + " -I " + interface
+            cmd_line = "python3 " + TOOLS_PATH + "dos_blacknurse.py -t " + a + " -a " + cmd_tokens[2] + " -v " + cmd_tokens[3] + " -N " + N + " -I " + interface
 
             Popen(cmd_line, shell=True)
 
@@ -223,7 +225,7 @@ def execute(cmd_tokens):
             else:
                 interface= "eth0"
 
-            cmd_line = TOOLS_PATH + "dhcp_starvation.py -t " + a + " -N " + N + " -I " + interface
+            cmd_line = "python3 " + TOOLS_PATH + "dhcp_starvation.py -t " + a + " -N " + N + " -I " + interface
 
             Popen(cmd_line, shell=True)
 
@@ -248,7 +250,7 @@ def execute(cmd_tokens):
             else:
                 interface= "eth0"
 
-            cmd_line = TOOLS_PATH + "ping_of_death.py -t " + a + " -v " + cmd_tokens[2] + " -N " + N + " -I " + interface
+            cmd_line = "python3 " + TOOLS_PATH + "ping_of_death.py -t " + a + " -v " + cmd_tokens[2] + " -N " + N + " -I " + interface
 
             Popen(cmd_line, shell=True)
 
@@ -274,7 +276,7 @@ def execute(cmd_tokens):
             else:
                 interface= "eth0"
 
-            cmd_line = TOOLS_PATH + "cdp_flood.py -t " + a + " -N " + N + " -s " + STRUCT_PATH + "cdp.yaml" + " -I " + interface
+            cmd_line = "python3 " + TOOLS_PATH + "cdp_flood.py -t " + a + " -N " + N + " -s " + STRUCT_PATH + "cdp.yaml" + " -I " + interface
 
             Popen(cmd_line, shell=True)
 
@@ -299,7 +301,7 @@ def execute(cmd_tokens):
             else:
                 interface= "eth0"
 
-            cmd_line = TOOLS_PATH + "ssdp_reflective.py -t " + a + " -s " + cmd_tokens[2] + " -v " + cmd_tokens[3] + " -N " + N + " -I " + interface
+            cmd_line = "python3 " + TOOLS_PATH + "ssdp_reflective.py -t " + a + " -s " + cmd_tokens[2] + " -v " + cmd_tokens[3] + " -N " + N + " -I " + interface
 
             Popen(cmd_line, shell=True)
         else:
@@ -324,7 +326,7 @@ def execute(cmd_tokens):
             else:
                 interface= "eth0"
 
-            cmd_line = TOOLS_PATH + "dns_reflective.py -t " + a + " -d " + cmd_tokens[2] + " -v " + cmd_tokens[3] + " -w " + cmd_tokens[4] + " -N " + N + " -I " + interface
+            cmd_line = "python3 " + TOOLS_PATH + "dns_reflective.py -t " + a + " -d " + cmd_tokens[2] + " -v " + cmd_tokens[3] + " -w " + cmd_tokens[4] + " -N " + N + " -I " + interface
 
             Popen(cmd_line, shell=True)
         else:
@@ -348,11 +350,34 @@ def execute(cmd_tokens):
             else:
                 interface= "eth0"
 
-            cmd_line = TOOLS_PATH + "arp_cache_poisoning.py -s " + cmd_tokens[1] + " -v " + cmd_tokens[2] + " -r " + cmd_tokens[3] + " -I " + interface
+            cmd_line = "python3 " + TOOLS_PATH + "arp_cache_poisoning.py -s " + cmd_tokens[1] + " -v " + cmd_tokens[2] + " -r " + cmd_tokens[3] + " -I " + interface
 
             Popen(cmd_line, shell=True)
         else:
             print(RED + "[-] arp_cache_poisoning <start/stop> <victim_ip> <gateway_ip> <interface>" + RESET)
+
+
+        return True
+
+    ############## TRACEROUTE
+    # 
+    if cmd_tokens[0] == 'traceroute':
+        if len(cmd_tokens) <= 6:        
+            
+            if len(cmd_tokens)!=5:
+                if cmd_tokens[5]:
+                    interface = cmd_tokens[5]
+                else:
+                    interface = "eth0"
+            else:
+                interface= "eth0"
+
+            cmd_line = "python3 " + TOOLS_PATH + "traceroute.py -n " + cmd_tokens[1] + " -v " + cmd_tokens[2] + " -t " + cmd_tokens[3] + " -p " +cmd_tokens[4] + " -I " + interface
+
+
+            Popen(cmd_line, shell=True)
+        else:
+            print(RED + "[-] traceroute <TTL> <victim_ip> <timeout> <protocol> <interface>" + RESET)
 
 
         return True
