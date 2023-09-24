@@ -62,12 +62,12 @@ def fermeture():
 
 def main():
 
-        if(startstop == "start"):
+    if(startstop == "start"):
 	    os.system("echo 1 > /proc/sys/net/ipv4/ip_forward")
-        elif(startstop == "stop"):
+    elif(startstop == "stop"):
 	    retablissement_arp_table_victime(ip_victime, ip_routeur, interface)
 	    os.system("echo 0 > /proc/sys/net/ipv4/ip_forward")
-            sys.exit(1)
+        sys.exit(1)
 
 	try:
 		mac_victime = recup_adr_mac(ip_victime, interface)

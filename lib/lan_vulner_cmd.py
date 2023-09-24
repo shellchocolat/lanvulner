@@ -39,6 +39,7 @@ cmdList = [
             'dns_reflective ',
             'arp_cache_poisoning ',
             'traceroute ',
+            'bpg ',
             'test(',
             'start ',
             'stop ',
@@ -87,7 +88,8 @@ def help_menu():
     print(GREEN + " ssdp_reflective "+YELLOW+"<test(2)/flood> <ssdp_srv_ip> <victim_ip> <interface>\t"+MAGENTA+ "SSDP Reflective Attack (ssdp: rootdevice)" + RESET)
     print(GREEN + " dns_reflective "+YELLOW+"<test(2)/flood> <dns_srv_ip> <victim_ip> <website.com> <interface>\t"+MAGENTA+ "DNS Reflective Attack" + RESET)
     print(GREEN + " arp_cache_poisoning "+YELLOW+"<start/stop> <victim_ip> <gateway_ip> <timeout> <interface>\t"+MAGENTA+ "MITM via ARP cache poisoning" + RESET)
-    print(GREEN + " traceroute "+YELLOW+"<TTL> <victim_ip/hostname> <timeout> <protocol>\t"+MAGENTA+ "Traceroute" + RESET)
+    print(GREEN + " traceroute "+YELLOW+"<TTL> <victim_ip/hostname> <timeout> <protocol> <interface>\t"+MAGENTA+ "Traceroute" + RESET)
+    print(GREEN + " bgp "+YELLOW+"<victim_ip> <NLRI> <interface>\t"+MAGENTA+ "BGP UPDATE message" + RESET)
     print("="*60)
     print(RED + " Don't be an asshole and only use the test(2) parameter." + RESET)
     print(RED + " Of course, don't forget that wireshark is your friend !" + RESET)
@@ -378,6 +380,29 @@ def execute(cmd_tokens):
             Popen(cmd_line, shell=True)
         else:
             print(RED + "[-] traceroute <TTL> <victim_ip> <timeout> <protocol> <interface>" + RESET)
+
+
+        return True
+
+    ############## BGP
+    # 
+    if cmd_tokens[0] == 'bgp':
+        if len(cmd_tokens) <= 4:        
+            
+            if len(cmd_tokens)!=3:
+                if cmd_tokens[3]:
+                    interface = cmd_tokens[3]
+                else:
+                    interface = "eth0"
+            else:
+                interface= "eth0"
+
+            cmd_line = "python3 " + TOOLS_PATH + "bgp.py -v " + cmd_tokens[1] + " -p " + cmd_tokens[2] + " -I " + interface
+
+
+            Popen(cmd_line, shell=True)
+        else:
+            print(RED + "[-] bgp <victim_ip> <NLRI> <interface>" + RESET)
 
 
         return True

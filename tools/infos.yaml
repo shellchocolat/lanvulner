@@ -119,3 +119,9 @@ dns_reflective: |
 arp_cache_poisoning: |
         mitm attacks
 
+traceroute: |
+        A simple traceroute to a host. You have to specify the 
+        Time To Live (TTL, 10 to 30 is ok) that will be decremented by each
+        middleware that has been encountered. You also have to specify the
+        timeout (2 to 5 is ok) and the protocol to encapsulate inside the
+        IP packet (TCP/UDP/ICMP).
